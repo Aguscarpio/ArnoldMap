@@ -44,7 +44,7 @@ if __name__ == "__main__":
     import time
     from save import save_data
     from matplotlib.animation import FuncAnimation
-    from tesfuncs.funcs import period
+    from period_funcs import period
     plt.style.use("seaborn")
 
     dt=0.00004
