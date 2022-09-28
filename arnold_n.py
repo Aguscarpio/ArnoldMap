@@ -69,7 +69,7 @@ def run_arnold(arn_number, ncpus, dimK, dimtau, N_steps, dt):
         # Save values (a file per partition)
         with open(f"results/periodsgrid_{arn_number}.npy", "wb") as f:
             np.save(f, periods_grid)
-    with open(f"periodsgrid_{arn_number}.npy", "wb") as f:
+    with open(f"results/periodsgrid_{arn_number}.npy", "wb") as f:
         np.save(f, periods_grid)
 
 run_arnold(arn_number, ncpus, dimK, dimtau, N_steps, dt)
