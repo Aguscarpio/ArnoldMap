@@ -10,8 +10,8 @@ mintau = 0.04
 maxtau = 0.07
 minK = 3
 maxK = 10
-dimtau = 32
-dimK = 32
+dimtau = 128
+dimK = 128
 
 with open(f"periodsgrid_total.npy", "rb") as f:
     periods_grid_super = np.load(f)

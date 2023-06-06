@@ -9,6 +9,7 @@ Created on 2022
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
+import os
 from numba import njit
 from delayed_wilsoncowan_rk4 import rk4_numba
 from save import save_return, save_data
@@ -18,7 +19,7 @@ from period_funcs import period
 
 # Fixed parameters
 rox = -2.3
-roy = -9
+roy = -9.0
 mu = 150
 
 # Variable parameters' ranges
@@ -27,12 +28,17 @@ maxtau = 0.07
 minK = 3
 maxK = 10
 
+if not os.path.isdir(f"/mnt/sda/arnold_maps/results_{float(rox)}_{float(roy)}"):
+    os.system(f"mkdir /mnt/sda/arnold_maps/results_{float(rox)}_{float(roy)}")
+
 # Parameters passed with run.py
 arn_number, ncpus, dimK, dimtau, N_steps = [int(n) for n in sys.argv[1:6]]
 dt = float(sys.argv[6])
+rox = float(sys.argv[7])
+roy = float(sys.argv[8])
 
 # main function
-def run_arnold(arn_number, ncpus, dimK, dimtau, N_steps, dt):
+def run_arnold(arn_number, ncpus, dimK, dimtau, N_steps, dt, rox, roy):
     tau_steps = int(maxtau/dt)
 
     # Precompilation (not sure if needed)
@@ -67,9 +73,9 @@ def run_arnold(arn_number, ncpus, dimK, dimtau, N_steps, dt):
         tau_index += 1
 
         # Save values (a file per partition)
-        with open(f"results/periodsgrid_{arn_number}.npy", "wb") as f:
+        with open(f"/mnt/sda/arnold_maps/results_{float(rox)}_{float(roy)}/periodsgrid_{arn_number}.npy", "wb") as f:
             np.save(f, periods_grid)
-    with open(f"results/periodsgrid_{arn_number}.npy", "wb") as f:
+    with open(f"/mnt/sda/arnold_maps/results_{float(rox)}_{float(roy)}/periodsgrid_{arn_number}.npy", "wb") as f:
         np.save(f, periods_grid)
 
-run_arnold(arn_number, ncpus, dimK, dimtau, N_steps, dt)
+run_arnold(arn_number, ncpus, dimK, dimtau, N_steps, dt, rox, roy)
